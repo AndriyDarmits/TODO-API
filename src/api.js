@@ -21,15 +21,13 @@ class Api {
       if (res.ok) {
         const data = await res.json();
         this.headers.Authorization = `Bearer ${data.token}`;
-        console.log(data);
+        console.log(data, "registered");
       } else {
         throw new Error("Invalid authorization");
       }
     } catch (err) {
       console.log(err);
-      if (err) {
-        return false;
-      }
+      this.error = true;
     }
   }
 
@@ -47,7 +45,7 @@ class Api {
       if (res.ok) {
         const data = await res.json();
         this.headers.Authorization = `Bearer ${data.token}`;
-        console.log(data);
+        console.log(data, "logindata");
       } else {
         throw new Error("Invalid data");
       }
@@ -56,14 +54,42 @@ class Api {
       console.log(err);
     }
   }
-  // TODO: not implemented yet
+
   async logout() {
-    const res = await fetch(`${this.url}user/logout`, {
-      method: "POST",
-      headers: this.headers,
-    });
-    const data = await res.json();
-    return data;
+    try {
+      const res = await fetch(`${this.url}user/logout`, {
+        method: "POST",
+        headers: this.headers,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+      } else {
+        throw new Error("Something went wrong...");
+      }
+    } catch (err) {
+      this.error = true;
+      console.log(err);
+    }
+  }
+
+  async deleteUser() {
+    try {
+      const res2 = await fetch(`${this.url}user/me`, {
+        method: "DELETE",
+        headers: this.headers,
+      });
+      if (res2.ok) {
+        const data2 = await res2.json();
+        console.log(data2);
+      } else {
+        throw new Error("Something went wrong...");
+      }
+    } catch (err) {
+      this.error = true;
+      console.log(err);
+    }
   }
 
   // Написати функцію яка повертає масив ToDo елементів із API

@@ -12,6 +12,9 @@ renderLoginPage();
 
 // Написати функцію яка залогінює користувача, фетчить список ToDo елементів та добавляє їх на фронт (нові мають бути зверху)
 window.login = async () => {
+  event.preventDefault();
+  console.log(event);
+  api.error = false;
   // Писати код тут
   // we will lost a context so i should to bind this with api
   const loginBound = api.login.bind(api);
@@ -27,21 +30,27 @@ window.login = async () => {
 
 // Написати функцію яка реєструє користувача, фетчить список ToDo елементів та добавляє їх на фронт (нові мають бути зверху)
 window.register = async () => {
+  api.error = false;
   // Писати код тут
-  const data = await api.register();
-  console.log(data);
-  if (!data) {
+  const redisterBound = await api.register.bind(api);
+  await asyncProvider(redisterBound);
+  if (api.error) {
     alert("You has already registered");
     return;
   }
   const allTodos = await api.fetchAllTodoItems();
   insertAllTodosToHtml(allTodos);
 };
+
 window.logout = async () => {
-  const isLoggedOut = await api.logout();
-  if (isLoggedOut.success) {
-    renderLoginPage();
+  api.error = false;
+  const logoutBound = api.logout.bind(api);
+  await asyncProvider(logoutBound);
+  // if fail loggin in
+  if (api.error) {
+    return;
   }
+  renderLoginPage();
 };
 
 // Написати функцію яка добавляє ToDo елемент до API та фронта
