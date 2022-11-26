@@ -13,14 +13,27 @@ renderLoginPage();
 // Написати функцію яка залогінює користувача, фетчить список ToDo елементів та добавляє їх на фронт (нові мають бути зверху)
 window.login = async () => {
   event.preventDefault();
-  console.log(event);
+  //get gat from inputs
+  const formData = new FormData(event.target);
+  const loginData = {
+    email: formData.get("email") || null,
+    password: formData.get("password") || null,
+  };
+
+  //check is all field filled in
+  if (Object.values(loginData).includes(null)) {
+    alert("Please fill all fields");
+    return;
+  }
+  // reset previous error
   api.error = false;
   // Писати код тут
   // we will lost a context so i should to bind this with api
-  const loginBound = api.login.bind(api);
+  const loginBound = api.login.bind(api, loginData);
   await asyncProvider(loginBound);
   // if fail loggin in
   if (api.error) {
+    alert("Not found user or incorrect password");
     return;
   }
   const allTodos = await api.fetchAllTodoItems();
@@ -30,9 +43,25 @@ window.login = async () => {
 
 // Написати функцію яка реєструє користувача, фетчить список ToDo елементів та добавляє їх на фронт (нові мають бути зверху)
 window.register = async () => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const registerData = {
+    name: formData.get("name") || null,
+    email: formData.get("email") || null,
+    password: formData.get("password") || null,
+    age: formData.get("age") || null,
+  };
+
+  //check is all field filled in
+  if (Object.values(registerData).includes(null)) {
+    alert("Please fill all fields");
+    return;
+  }
+  console.log(registerData);
+  // reset previous error
   api.error = false;
   // Писати код тут
-  const redisterBound = await api.register.bind(api);
+  const redisterBound = await api.register.bind(api, registerData);
   await asyncProvider(redisterBound);
   if (api.error) {
     alert("You has already registered");

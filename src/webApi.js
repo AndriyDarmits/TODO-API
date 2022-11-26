@@ -2,8 +2,22 @@
 export const renderLoginPage = () => {
   const loginContent = `
 <div id="app" class="mainContainer">
-  <button class="button" onclick="login()">Login</button>
-  <button class="button" onclick="register()">Register</button>
+  <div class = "logInUpBlock">
+     <h2 className="logIn-title">Log in</h2>
+    <form class = "login"  onsubmit="login()" >
+      <input type="email" name = "email" placeholder = "Email..."/>
+      <input type="password" name="password" placeholder = "Password..."/>
+      <button class="button" type = "submit">Login</button>
+    </form>
+    <h2 className="signup-title">Sign up</h2>
+    <form class = "signup"  onsubmit="register()" >
+      <input type="text" name = "name" placeholder = "Name..."/>
+      <input type="email" name = "email" placeholder = "Email..."/>
+      <input type="password" name = "password" placeholder = "Password..."/>
+      <input type="text" name = "age" placeholder = "Gge..."/>
+      <button class="button" type = "submit">Register</button>
+    </form>
+  </div>
 </div>
 <div id="loader" class="loaderContainer hidden">
   <div class="loaderIcon"></div>

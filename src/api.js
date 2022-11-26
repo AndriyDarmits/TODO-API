@@ -5,7 +5,7 @@ class Api {
     this.error = false;
   }
 
-  async register() {
+  async register(registerData) {
     try {
       const res = await fetch(`${this.url}user/register`, {
         method: "POST",
@@ -31,16 +31,13 @@ class Api {
     }
   }
 
-  async login() {
+  async login(logindata) {
     try {
       const res = await fetch(`${this.url}user/login`, {
         method: "POST",
         headers: this.headers,
         // Тут потрібно використовувати ваш email та password відповідно до прикладу у документації
-        body: JSON.stringify({
-          email: "darmirs99@gmail.com",
-          password: "12345678",
-        }),
+        body: JSON.stringify(logindata),
       });
       if (res.ok) {
         const data = await res.json();
@@ -51,7 +48,6 @@ class Api {
       }
     } catch (err) {
       this.error = true;
-      console.log(err);
     }
   }
 

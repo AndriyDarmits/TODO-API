@@ -5,7 +5,6 @@ export const asyncProvider = async (func) => {
   try {
     document.dispatchEvent(fetchStart);
     if (typeof func === "function") {
-      console.log(func);
       await func();
     }
   } catch (error) {
