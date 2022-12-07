@@ -1,7 +1,9 @@
 class Api {
   constructor() {
     this.url = "https://api-nodejs-todolist.herokuapp.com/";
-    this.headers = { "Content-Type": "application/json" };
+    this.headers = {
+      "Content-Type": "application/json",
+    };
     this.error = false;
   }
 
@@ -11,12 +13,7 @@ class Api {
         method: "POST",
         headers: this.headers,
         // Тут потрібно використовувати ваш name, email, age та password відповідно до прикладу у документації
-        body: JSON.stringify({
-          name: "Andrii Darmits",
-          email: "darmirs99@gmail.com",
-          password: "12345678",
-          age: 20,
-        }),
+        body: JSON.stringify(registerData),
       });
       if (res.ok) {
         const data = await res.json();
@@ -26,7 +23,7 @@ class Api {
         throw new Error("Invalid authorization");
       }
     } catch (err) {
-      console.log(err);
+      console.log(err, "error");
       this.error = true;
     }
   }
@@ -47,6 +44,7 @@ class Api {
         throw new Error("Invalid data");
       }
     } catch (err) {
+      console.log(err, "error");
       this.error = true;
     }
   }
